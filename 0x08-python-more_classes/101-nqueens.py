@@ -112,17 +112,23 @@ def recursive_solve(board, row, queens, solutions):
     """
     if queens == len(board):
         solutions.append(get_solution(board))
-        return (solutions)
+        return solutions
 
     for c in range(len(board)):
         if board[row][c] == " ":
             tmp_board = board_deepcopy(board)
             tmp_board[row][c] = "Q"
             xout(tmp_board, row, c)
-            solutions = recursive_solve(tmp_board, row + 1,
-                                        queens + 1, solutions)
 
-    return (solutions)
+            # Recursive call to continue solving
+            new_solutions = recursive_solve(tmp_board, row + 1, queens + 1, solutions)
+            
+            # Check if a solution was found
+            if new_solutions:
+                solutions.extend(new_solutions)
+                break
+
+    return solutions
 
 
 if __name__ == "__main__":
